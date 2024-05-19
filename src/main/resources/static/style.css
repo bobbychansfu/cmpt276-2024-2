@@ -6,6 +6,15 @@ p {
     padding: 1em;
 }
 
+#special {
+    color: blue;
+
+}
+
+.portfolio {
+    border: 2px solid green;
+}
+
 img {
     width: 100px;
     
