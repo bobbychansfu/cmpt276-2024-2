@@ -15,7 +15,7 @@
                 <h1>USERS</h1>
                 <ul>
                     <li th:each="user:${us}">
-                        <span th:style="'font-size:'+${user.size}+'pt'" th:text="${user.name}"></span> <br>
+                        <span th:style="'font-size:'+${user.size}+'pt;color:red;'" th:text="${user.name}"></span> <br>
                         <span th:text="${user.password}"></span>
                         <div th:switch="${user.name}">
                             <span th:case="'Bobby'">HEY! It's the instructor!!!</span>

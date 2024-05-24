@@ -31,3 +31,14 @@ function addElement(evt) {
 }
 
 window.addEventListener('click', addElement)
+
+let operate = function(evt) {
+    evt.preventDefault(); 
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value; // parseInt
+    console.log(name);
+    console.log(email);
+}
+
+let form = document.getElementById('form');
+form.addEventListener('submit', operate);
