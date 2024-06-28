@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -62,6 +64,44 @@ public class UsersController {
         userRepo.save(new User(newName,newPwd,newSize));
         response.setStatus(201);
         return "addedUser";
+    }
+
+    @GetMapping("/login")
+    public String getLogin(Model model, HttpServletRequest request, HttpSession session){
+        User user = (User) session.getAttribute("session_user");
+        if (user == null){
+            return "login";
+        }
+        else {
+            model.addAttribute("user",user);
+            return "protected";
+        }
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session){
+        // processing login
+        String name = formData.get("name");
+        String pwd = formData.get("password");
+        System.out.println("Login attempt: " + name + " " + pwd);
+        List<User> userlist = userRepo.findByNameAndPassword(name, pwd);
+        if (userlist.isEmpty()){
+            return "login";
+        }
+        else {
+            // success
+            User user = userlist.get(0);
+            request.getSession().setAttribute("session_user", user);
+            model.addAttribute("user", user);
+            return "protected";
+        }
+    }
+
+    // logout the user
+    @GetMapping("/logout")
+    public String destroySession(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "login";
     }
 
 }
